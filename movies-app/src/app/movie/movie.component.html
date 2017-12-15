@@ -1,0 +1,40 @@
+<mat-card class="movie-card" >
+  <mat-card-header>
+    <img  *ngIf="movie?.belongs_to_collection?.backdrop_path"
+          mat-card-avatar src="{{movieUrl+movie.belongs_to_collection?.backdrop_path}}"/>
+    <mat-card-title>{{movie?.title}}</mat-card-title>
+    <mat-card-subtitle>{{movie?.release_date}}</mat-card-subtitle>
+    <mat-card-subtitle>{{movie?.tagline}}</mat-card-subtitle>
+  </mat-card-header>
+  <img class="card-img-bottom poster"
+       mat-card-image [src]="movieUrl+movie?.belongs_to_collection?.poster_path">
+  <mat-card-content>
+
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>{{movie?.vote_average}}</mat-panel-title>
+        <mat-panel-description>overview</mat-panel-description>
+      </mat-expansion-panel-header>
+      <mat-panel-description style="overflow: scroll">
+      {{movie?.overview}}
+      </mat-panel-description>
+    </mat-expansion-panel>
+
+  </mat-card-content>
+
+  <mat-card-actions class="col-sm-push-0">
+    <button mat-button> <i class="material-icons" style="color: lightblue">thumb_up</i>  Like</button>
+    <button mat-button> <i class="material-icons" style="color: deeppink">favorites</i>{{movie?.vote_average}}</button>
+    <button mat-button> <i class="material-icons" style="color: yellowgreen">insert_chart</i>{{movie?.vote_count}}</button>
+
+  </mat-card-actions>
+
+  <mat-card-footer>
+    <mat-card>
+      <mat-chip-list>
+        <mat-chip color="{{colors[i%colors.length]}}" selected="true" *ngFor="let tag of movie?.genres;let i=index">{{tag}}</mat-chip>
+      </mat-chip-list>
+    </mat-card>
+  </mat-card-footer>
+</mat-card>
+
