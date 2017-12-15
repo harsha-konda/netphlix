@@ -1,0 +1,15 @@
+button{
+  font-size:large;
+  outline: none;
+}
+
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+mat-toolbar{
+  position: fixed;
+}
+
+.active{
+background: lightskyblue}

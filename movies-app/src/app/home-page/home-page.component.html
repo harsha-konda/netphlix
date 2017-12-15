@@ -1,0 +1,19 @@
+
+<mat-card>
+  <mat-card-title>
+  <mat-toolbar>
+    <span>Movies</span>
+    <span class="example-spacer"></span>
+    <span style="width: 40%"><app-search (tags)="$event.length==0?getMovies():getMovieOnTags($event)" ></app-search> </span>
+  </mat-toolbar>
+
+  </mat-card-title>
+  <mat-card-content class="fit-list">
+    <div class="card-columns">
+      <div class="card "  *ngFor="let movie of movies$ | async;let i=index;" style="border: none">
+        <app-movie [movie]="movie['_source']" (output)="handleFavoriteMovie($event,movie['_id'])"></app-movie>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
+

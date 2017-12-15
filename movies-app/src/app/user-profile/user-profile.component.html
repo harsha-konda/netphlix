@@ -1,0 +1,24 @@
+
+<mat-card>
+  <mat-card-header>Liked Movies</mat-card-header>
+
+  <mat-card-content class="fit-list">
+    <div class="card-columns">
+      <div class="card "  *ngFor="let mv of movies$ | async"  style="border: none">
+        <app-movie [movie]="mv"></app-movie>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<br>
+<mat-card>
+  <mat-card-header>Recommended Movies</mat-card-header>
+  <mat-card-content class="fit-list">
+    <div class="card-columns">
+      <div class="card "  *ngFor="let mv of recommendations$ | async"  style="border: none">
+        <app-movie [movie]="mv"></app-movie>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

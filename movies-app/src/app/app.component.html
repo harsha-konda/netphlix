@@ -1,0 +1,25 @@
+
+<mat-toolbar color="primary" class="fixed-top">
+
+  <mat-toolbar-row>
+    <span>
+      <a routerLink="/">
+        <img class="navbar-brand" style="max-width:64px;" src="{{image}}">
+      </a>
+    </span>
+    <span>
+      <button mat-button routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</button>
+    </span>
+    <span>
+      <button mat-button  routerLink="/profile" routerLinkActive="active" >Profile</button>
+    </span>
+
+    <span class="example-spacer"></span>
+  </mat-toolbar-row>
+</mat-toolbar>
+<br>
+<br>
+<mat-card>
+  <router-outlet></router-outlet>
+</mat-card>
+

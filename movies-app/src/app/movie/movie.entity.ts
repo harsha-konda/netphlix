@@ -1,0 +1,20 @@
+export class movie {
+  "_id":any;
+  "genres":string[];
+  "title":string;
+  "overview":string;
+  "release_date":string;
+  "budget":number;
+  "keywords":string[];
+  "vote_count":number;
+  "adult":boolean;
+  "tagline":string;
+  "vote_average":number;
+  "id":number;
+  "belongs_to_collection":{
+    "backdrop_path":string,
+    "poster_path":string,
+    "id":number,
+    "name":string
+  };
+}

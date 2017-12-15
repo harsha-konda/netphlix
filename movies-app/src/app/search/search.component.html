@@ -1,0 +1,25 @@
+<div class="example-container">
+<form class="example-form">
+
+  <mat-form-field>
+    <mat-select [(value)]="selected"  placeholder="attribute" >
+      <mat-option value="{{op}}" *ngFor="let op of options">{{op}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field color="accent" class="example-full-width">
+    <input matInput
+           value="accent"
+           placeholder="Search"
+           aria-label="Search"
+           [matAutocomplete]="auto"
+           [formControl]="stateCtrl"/>
+    <mat-autocomplete #auto="matAutocomplete">
+      <mat-option *ngFor="let state of filteredStates | async" [value]="state.key">
+        <span>{{ state.key }}</span> |
+        <small>Movies Count: {{state.doc_count}}</small>
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+</form>
+</div>
