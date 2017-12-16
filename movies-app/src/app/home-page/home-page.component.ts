@@ -29,6 +29,4 @@ export class HomePageComponent implements OnInit {
     this.movies$=this.mvservice.getMovieByTrait(trait,states.map((obj)=>obj['key']?obj['key']:obj));
   }
 
-
-
 }

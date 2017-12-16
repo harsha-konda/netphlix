@@ -1,9 +1,9 @@
 const express = require('express');
-var path = require('path');
+const path = require('path');
 const app = express();
 const es=require('elasticsearch');
 const cors = require('cors');
-var bodyParser = require('body-parser');
+const bodyParser = require('body-parser');
 
 /**
  * index
@@ -26,7 +26,6 @@ app.use(cors());
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: false}))
 app.use('/', express.static('dist'));
-
 
 /**
  * Get some top movies
@@ -58,11 +57,10 @@ app.post('/es/users/recommend',function(req,res){
 
   const{movies,size} =req.body;
   let query=[];
-
   movies.forEach(function(movie){
     const mini_q={
       match:{
-        movies:movie
+        'movies.movie':movie
       }
     };
     query.push(mini_q);
@@ -125,6 +123,5 @@ app.post('/es/movies/:attribute/:sort',function(req,res){
 });
 
 app.listen(3000, function () {
-  console.log('Movies app listening on port 3000!')
+  console.log('Movies-app listening on port 3000!')
 });
-
