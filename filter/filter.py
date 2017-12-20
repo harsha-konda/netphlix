@@ -6,9 +6,9 @@ import sys
 #issues: belongs_to_collection,release_date
 def parse_movies():
     movie_url='https://image.tmdb.org/t/p/original'
-    movies=pd.read_csv('data/movies_metadata.csv',
+    movies=pd.read_csv('../data/movies_metadata.csv',
                        usecols=['adult','genres','budget','id','title','overview','tagline','vote_average','vote_count','belongs_to_collection','release_date'])
-    keywords=pd.read_csv('data/keywords.csv')
+    keywords=pd.read_csv('../data/keywords.csv')
 
     def cast_to_int(x):
         try:
@@ -50,7 +50,7 @@ def parse_movies():
     df['genres']=df['genres'].apply(map_genres)
     df['keywords']=df['keywords'].apply(map_genres)
     schema={"index":{"_index":"movies","_type":"movie","_id":1}}
-    f=open('data/movies.json', 'w')
+    f=open('../data/movies.json', 'w')
     columns=df.columns.values
 
     count =set()

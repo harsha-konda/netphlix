@@ -1,3 +1,18 @@
+## to-do ☹
+1. Correctness
+2. ~Percentage counts > 100~
+3. Integrate with frontend
+4. Develop test cases
+5. Submitters
+6. Graders
+7. WriteUp
+8. Jenkins Pipeline
+9. Primer
+
+## repo
+- https://s3.amazonaws.com/hkonda-code/netflix.tar
+
+## Docs
 ### spark jobs
 ```
 spark-submit --class FollowerRDD p42.jar
@@ -12,8 +27,8 @@ curl -XPUT 'localhost:9200/movies_users?pretty' -H 'Content-Type: application/js
 {
     "settings" : {
         "index" : {
-            "number_of_shards" : 3, 
-            "number_of_replicas" : 2 
+            "number_of_shards" : 3,
+            "number_of_replicas" : 2
         }
     }
 }
@@ -25,8 +40,8 @@ PUT movies
 {
     "settings" : {
         "index" : {
-            "number_of_shards" : 3, 
-            "number_of_replicas" : 2 
+            "number_of_shards" : 3,
+            "number_of_replicas" : 2
         }
     }
 }
@@ -49,7 +64,7 @@ curl -s -H "Content-Type: application/x-ndjson" -XPOST localhost:9200/_bulk --da
 PUT movies/_mapping/movie
 {
   "properties": {
-    "keywords": { 
+    "keywords": {
       "type":     "text",
       "fielddata": true
     }

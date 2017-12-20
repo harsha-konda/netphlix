@@ -1,6 +1,6 @@
 /**
   * Created by harsha on 4/19/17.
-  * json sucks is scala
+  * json sucks in scala
   */
 
 import java.util
@@ -21,14 +21,28 @@ object FilterUsers{
     val header = textFile.first()
     textFile = textFile.filter(row => row != header)
 
-    val movieCounts = textFile.map{ line =>
+    val userReviews = textFile.map{ line =>
       val attr = line.split(",")
       (attr(0),(attr(1),attr(2)))
-    }.groupByKey().map{case(key,value)=>(key,(value.mkString(",")))}
+    }.groupByKey().cache()
 
-    movieCounts.saveAsTextFile("file:///Users/harsha/Google Drive/Semester-4/netphlix/output/users1")
+    val movieTF=userReviews.flatMap{case (key,value)=>value}.map(key=>(key._1,1)).reduceByKey(_+_)
+
+    val key_counts=userReviews.count()
+
+    val movieCount=sc.parallelize(Seq(key_counts))
+
+    movieCount
+      .coalesce(1)
+      .saveAsTextFile("file:///Users/harsha/Google Drive/Semester-4/netphlix/output/movieCount")
+
+    movieTF
+      .coalesce(1)
+      .saveAsTextFile("file:///Users/harsha/Google Drive/Semester-4/netphlix/output/movieTF")
+    userReviews
+      .map{case(key,value)=>(key,value.mkString(","))}
+      .saveAsTextFile("file:///Users/harsha/Google Drive/Semester-4/netphlix/output/users1")
   }
-
-
+  
 }
 
