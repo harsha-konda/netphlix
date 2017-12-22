@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {UserProfileService} from "../user-profile.service";
 
 @Component({
   selector: 'app-user-profile',
@@ -7,9 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UserProfileComponent implements OnInit {
 
-  constructor() { }
+  constructor(protected us: UserProfileService) { }
 
+  movies$;
   ngOnInit() {
+    this.movies$=this.us.fetchUserMovies()
+
   }
+
+
+
 
 }

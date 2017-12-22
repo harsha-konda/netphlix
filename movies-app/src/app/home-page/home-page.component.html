@@ -11,7 +11,7 @@
   <mat-card-content class="fit-list">
     <div class="card-columns">
       <div class="card "  *ngFor="let movie of movies$ | async;let i=index;" style="border: none">
-        <app-movie [movie]="movie['_source']"></app-movie>
+        <app-movie [movie]="movie['_source']" (output)="handleFavoriteMovie($event,movie['_id'])"></app-movie>
       </div>
     </div>
   </mat-card-content>

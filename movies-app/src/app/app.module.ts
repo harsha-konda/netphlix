@@ -36,11 +36,11 @@ import { RouterModule, Routes } from '@angular/router';
 import { SearchComponent } from './search/search.component';
 import {MatButtonModule} from "@angular/material";
 import { UserProfileComponent } from './user-profile/user-profile.component';
+import {UserProfileService} from "./user-profile.service";
 
 const appRoutes: Routes = [
   { path: '',
-    component: HomePageComponent,
-
+    component: HomePageComponent
   },{
     path:'profile',
     component: UserProfileComponent,
@@ -82,7 +82,7 @@ const appRoutes: Routes = [
       // { enableTracing: true } // <-- debugging purposes only
     ),
   ],
-  providers: [MoviesService],
+  providers: [MoviesService,UserProfileService],
   bootstrap: [AppComponent],
   exports:[MovieComponent]
 })

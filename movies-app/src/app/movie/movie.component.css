@@ -8,11 +8,9 @@
   background-size: cover;
 }
 
-mat-card{
+
+
+button{
+  font-size:large;
+  outline: none;
 }
-
-.poster{
-}
-
-
-

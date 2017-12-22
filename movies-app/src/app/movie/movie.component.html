@@ -23,7 +23,7 @@
   </mat-card-content>
 
   <mat-card-actions class="col-sm-push-0">
-    <button mat-button> <i class="material-icons" style="color: lightblue">thumb_up</i>  Like</button>
+    <button mat-button (click)="handleLike()"> <i class="material-icons" style="color: lightblue">thumb_up</i>  Like</button>
     <button mat-button> <i class="material-icons" style="color: deeppink">favorites</i>{{movie?.vote_average}}</button>
     <button mat-button> <i class="material-icons" style="color: yellowgreen">insert_chart</i>{{movie?.vote_count}}</button>
 

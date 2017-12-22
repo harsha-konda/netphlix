@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {movie} from "./movie.entity";
 import {AUTH_CONFIG} from "../config/global-config.variables";
 
@@ -9,7 +9,9 @@ import {AUTH_CONFIG} from "../config/global-config.variables";
 })
 export class MovieComponent implements OnInit {
   @Input() movie:movie;
+  selected: boolean=false;
 
+  @Output() output: EventEmitter<boolean>=new EventEmitter<boolean>();
 
   counter=0;
   movieUrl=AUTH_CONFIG.image_path;
@@ -21,5 +23,8 @@ export class MovieComponent implements OnInit {
   ngOnInit() {
   }
 
-
+  handleLike(){
+    this.selected=!this.selected;
+    this.output.emit(this.selected);
+  }
 }

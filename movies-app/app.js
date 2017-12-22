@@ -52,6 +52,39 @@ app.get('/es/movies/:size',function(req,res){
 });
 
 /**
+ * get movies data for an array of movies
+ * @param movies:[movieid}
+ * */
+app.post('/es/movies/get',function (req,res) {
+  const {movies}=req.body;
+  client.search({
+    index: i_m,
+    type: t_m,
+    body: {
+      query: {
+        ids: {
+          type: t_m,
+          values: movies
+        }
+      },
+      size: movies.length
+    }
+  }).then(
+    (result)=>{
+      const hits=(result.hits.hits);
+      let output=[];
+      hits.forEach((hit)=>{
+        let tempOutput=hit['_source'];
+        tempOutput['_id']=hit['_id'];
+        output.push(tempOutput);
+      });
+      res.json(output);
+    },
+    (err)=>console.log(err)
+  );
+});
+
+/**
  * recommend by users like movies
  * @param movies:[movieid]
  * */
@@ -69,7 +102,7 @@ app.post('/es/users/recommend',function(req,res){
  **/
 app.post('/es/movies/tf',function (req,res) {
   const {ids}=req.body;
-  const query=queryForMoviesTf(ids);
+  const query=queryForMoviesTf(ids,g_size);
   Promise
     .resolve(query)
     .then((result)=>res.json(result))
@@ -160,6 +193,7 @@ function queryForMovies(query,size){
 }
 
 function queryForMoviesTf(ids){
+  console.log(ids);
   return new Promise((resolve,reject)=> {
     client.search({
       index: i_tf,
@@ -184,3 +218,4 @@ function queryForMoviesTf(ids){
     })
   });
 }
+

@@ -1,13 +1,14 @@
 ## to-do ☹
-1. Correctness
+1. ~Correctness~
 2. ~Percentage counts > 100~
-3. Integrate with frontend
+3. ~Integrate with frontend~
 4. Develop test cases
 5. Submitters
 6. Graders
 7. WriteUp
 8. Jenkins Pipeline
 9. Primer
+10. java solution
 
 ## repo
 - https://s3.amazonaws.com/hkonda-code/netflix.tar
@@ -15,10 +16,11 @@
 ## Docs
 ### spark jobs
 ```
-spark-submit --class FollowerRDD p42.jar
-
+cd filter-links/
 ```
-
+```
+spark-submit --class FilterUsers  target/scala-2.11/comcast-assembly-1.0.jar
+```
 
 ### bulk import
 #### creating index
@@ -33,8 +35,6 @@ curl -XPUT 'localhost:9200/movies_users?pretty' -H 'Content-Type: application/js
     }
 }
 '
-
-
 
 PUT movies
 {
@@ -73,7 +73,6 @@ PUT movies/_mapping/movie
 ```
 
 ## docker
-
 ### build
 ```
 sudo docker build es/ --tag=elastic
@@ -82,16 +81,4 @@ sudo docker build es/ --tag=elastic
 ```
 sudo sysctl -w vm.max_map_count=262144
 sudo docker  run -d -p 9200:9200 -e "ES_JAVA_OPTS=-Xms4g -Xmx4g" elastic
-```
-
-### changing es heap size
-```
-
-ES_JAVA_OPTS="-Xms4000m -Xmx4000m" ./bin/elasticsearch
-```
-
-
-### for es
-```
-docker run  -e "ES_JAVA_OPTS=-Xms4000m -Xmx4000m" elastic
 ```
