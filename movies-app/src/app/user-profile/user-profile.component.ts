@@ -11,12 +11,10 @@ export class UserProfileComponent implements OnInit {
   constructor(protected us: UserProfileService) { }
 
   movies$;
+  recommendations$;
   ngOnInit() {
     this.movies$=this.us.fetchUserMovies()
-
+    this.recommendations$=this.us.getRecommendations();
   }
-
-
-
 
 }

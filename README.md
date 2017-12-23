@@ -1,5 +1,5 @@
 ## to-do ☹
-1. ~Correctness~
+1. Correctness
 2. ~Percentage counts > 100~
 3. ~Integrate with frontend~
 4. Develop test cases

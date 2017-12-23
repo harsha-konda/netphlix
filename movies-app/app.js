@@ -4,6 +4,7 @@ const app = express();
 const es=require('elasticsearch');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const request = require('request');
 
 /**
  * index
@@ -15,7 +16,7 @@ const type="post";
 const g_size=100;
 const i_tf="movies_tf";
 const numUserReco=100;
-
+const flaskUrl='http://localhost:5000/recommend';
 /**
  * Configure
  * */
@@ -57,45 +58,72 @@ app.get('/es/movies/:size',function(req,res){
  * */
 app.post('/es/movies/get',function (req,res) {
   const {movies}=req.body;
-  client.search({
-    index: i_m,
-    type: t_m,
-    body: {
-      query: {
-        ids: {
-          type: t_m,
-          values: movies
-        }
-      },
-      size: movies.length
-    }
-  }).then(
-    (result)=>{
-      const hits=(result.hits.hits);
-      let output=[];
-      hits.forEach((hit)=>{
-        let tempOutput=hit['_source'];
-        tempOutput['_id']=hit['_id'];
-        output.push(tempOutput);
-      });
-      res.json(output);
-    },
-    (err)=>console.log(err)
-  );
-});
-
-/**
- * recommend by users like movies
- * @param movies:[movieid]
- * */
-app.post('/es/users/recommend',function(req,res){
-  const{movies,size} =req.body;
-  const query=buildMatchQuery(movies);
-  const response=queryForMovies(query,size);
-  Promise.resolve(response)
+  const output=getMovies(movies);
+  Promise
+    .resolve(output)
     .then((result)=>res.json(result))
     .catch((error)=>console.log(error));
 });
+
+function getMovies(movies) {
+  return new Promise((resolve,reject)=>{
+    client.search({
+      index: i_m,
+      type: t_m,
+      body: {
+        query: {
+          ids: {
+            type: t_m,
+            values: movies
+          }
+        },
+        size: movies.length
+      }
+    }).then(
+      (result)=>{
+        const hits=(result.hits.hits);
+        let output=[];
+        hits.forEach((hit)=>{
+          let tempOutput=hit['_source'];
+          tempOutput['_id']=hit['_id'];
+          output.push(tempOutput);
+        });
+        resolve(output);
+      },
+      (err)=>reject(err)
+    );
+  });
+}
+
+/**
+ * get by users for a given set of movies
+ * @param movies:[movieid]
+ * */
+app.post('/es/users/get',function(req,res){
+  const{movies,size} =req.body;
+  const query=buildMatchQuery(movies);
+  const users=queryForUsers(query,size);
+  Promise.resolve(users)
+    .then((result)=>res.json(result))
+    .catch((error)=>console.log(error));
+});
+
+/**
+ * recommend users by requsting python backend
+ * */
+app.post('/es/users/recommend',function(req,res){
+  const {movies}=req.body;
+  request
+    .post(flaskUrl,{json:{movies:movies}})
+    .on('response',(response)=>response.on('data',(data)=>returnMovies(res,JSON.parse(data))));
+});
+
+function returnMovies(res,movies){
+  Promise
+    .resolve(getMovies(movies))
+    .then((data)=>res.json(data))
+    .catch((err)=>console.log(err));
+}
 
 /**
  * A recommendation built judging by the relative frequency of a term
@@ -169,15 +197,15 @@ function buildMatchQuery(movies){
   return query;
 }
 
-function queryForMovies(query,size){
+function queryForUsers(query,size){
   return new Promise( (resolve,reject) => {
     client.search({
       index:i_u,
       type:type,
       body:{
-        "query":{
-          "bool":{
-            "should": query
+        query:{
+          bool:{
+            should: query
           }
         },
         size:numUserReco
@@ -193,7 +221,6 @@ function queryForMovies(query,size){
 }
 
 function queryForMoviesTf(ids){
-  console.log(ids);
   return new Promise((resolve,reject)=> {
     client.search({
       index: i_tf,

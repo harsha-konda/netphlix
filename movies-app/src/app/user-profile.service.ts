@@ -26,6 +26,17 @@ export class UserProfileService {
       this.movies.push(id);
   }
 
+  getRecommendations(){
+    const url=`${AUTH_CONFIG.nodeUrl}/es/users/recommend`;
+    if(this.movies.length!=0)
+      return this.http
+        .post(url,{movies:this.movies})
+        .map((res)=>res.json())
+        .catch(this.handleError);
+
+    return Observable.of([]);
+  }
+
   private handleError (error: Response | any) {
     let errMsg: string;
     if (error instanceof Response) {
