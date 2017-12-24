@@ -65,35 +65,6 @@ app.post('/es/movies/get',function (req,res) {
     .catch((error)=>console.log(error));
 });
 
-function getMovies(movies) {
-  return new Promise((resolve,reject)=>{
-    client.search({
-      index: i_m,
-      type: t_m,
-      body: {
-        query: {
-          ids: {
-            type: t_m,
-            values: movies
-          }
-        },
-        size: movies.length
-      }
-    }).then(
-      (result)=>{
-        const hits=(result.hits.hits);
-        let output=[];
-        hits.forEach((hit)=>{
-          let tempOutput=hit['_source'];
-          tempOutput['_id']=hit['_id'];
-          output.push(tempOutput);
-        });
-        resolve(output);
-      },
-      (err)=>reject(err)
-    );
-  });
-}
 
 /**
  * get by users for a given set of movies
@@ -116,6 +87,8 @@ app.post('/es/users/recommend',function(req,res){
   request
     .post(flaskUrl,{json:{movies:movies}})
     .on('response',(response)=>response.on('data',(data)=>returnMovies(res,JSON.parse(data))));
+
+
 });
 
 function returnMovies(res,movies){
@@ -219,6 +192,37 @@ function queryForUsers(query,size){
     });
   })
 }
+
+function getMovies(movies) {
+  return new Promise((resolve,reject)=>{
+    client.search({
+      index: i_m,
+      type: t_m,
+      body: {
+        query: {
+          ids: {
+            type: t_m,
+            values: movies
+          }
+        },
+        size: movies.length
+      }
+    }).then(
+      (result)=>{
+        const hits=(result.hits.hits);
+        let output=[];
+        hits.forEach((hit)=>{
+          let tempOutput=hit['_source'];
+          tempOutput['_id']=hit['_id'];
+          output.push(tempOutput);
+        });
+        resolve(output);
+      },
+      (err)=>reject(err)
+    );
+  });
+}
+
 
 function queryForMoviesTf(ids){
   return new Promise((resolve,reject)=> {

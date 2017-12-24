@@ -1,3 +1,7 @@
+## issues
+1. node server integration test
+2. breaks without a server on 5000
+
 ## to-do ☹
 1. Correctness
 2. ~Percentage counts > 100~

@@ -7,7 +7,8 @@
     <mat-card-subtitle>{{movie?.tagline}}</mat-card-subtitle>
   </mat-card-header>
   <img class="card-img-bottom poster"
-       mat-card-image [src]="movieUrl+movie?.belongs_to_collection?.poster_path">
+       mat-card-image [src]="movieUrl+movie?.belongs_to_collection?.poster_path"
+       onError="this.src='http://www.holmeslibrary.org/wp-content/uploads/2016/02/movie-night-clipart-9cp4q9xcE.jpeg'">
   <mat-card-content>
 
     <mat-expansion-panel>

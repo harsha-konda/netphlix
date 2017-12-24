@@ -15,7 +15,6 @@ def write_schema1():
 		id=x[0]
 
 		movies=[{"movie":i[0],"rating":i[1]} for i in x[1:]]
-		print movies
 		schema1['index']['_id']=id
 		file1.write(json.dumps(schema1)+"\n")
 		file1.write(json.dumps({"movies":movies})+"\n")

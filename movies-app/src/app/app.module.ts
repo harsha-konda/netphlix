@@ -19,6 +19,7 @@ import {ReactiveFormsModule} from '@angular/forms'
 import { HttpModule } from '@angular/http';
 import {MatInputModule} from '@angular/material/input';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 
 /**
  * Search
@@ -77,6 +78,7 @@ const appRoutes: Routes = [
     MatInputModule,
     MatSlideToggleModule,
     MatSelectModule,
+    MatButtonToggleModule,
     RouterModule.forRoot(
       appRoutes,
       // { enableTracing: true } // <-- debugging purposes only

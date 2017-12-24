@@ -4,7 +4,10 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "npm-run-all --parallel server client db",
+    "db":"elasticsearch",
+    "server": "node app.js",
+    "client": "ng serve",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
