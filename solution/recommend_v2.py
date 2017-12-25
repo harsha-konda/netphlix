@@ -1,10 +1,8 @@
 from flask import Flask,request
-from flask_cors import CORS
 import json
 import numpy as np
 app = Flask(__name__)
 import requests
-CORS(app)
 from similarity import ComputeSimilarity
 
 node_url1='http://localhost:3000/es/users/recommend'

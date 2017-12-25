@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/harsha-konda/news-app.svg?token=rDtgdJpvq2dsfcM9RHLT&branch=master)](https://travis-ci.com/harsha-konda/news-app)
+
 ## issues
 1. node server integration test
 2. breaks without a server on 5000

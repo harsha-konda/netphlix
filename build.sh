@@ -37,21 +37,10 @@ sudo add-apt-repository \
 sudo apt-get update
 sudo apt-get install -y docker-ce
 
-#build docker
-cd es/
-#increase virual memory
-sudo sysctl -w vm.max_map_count=262144
-sudo docker build . --tag=es
-sudo docker run -d  -e "ES_JAVA_OPTS=-Xms4000m -Xmx4000m"  -p 9200:9200 es
+sudo addgroup --system docker
+sudo adduser $USER docker
+newgrp docker
 
-a=$(curl localhost:9200)
-while [[ -z $a ]]
-do
-sleep 3
-a=$(curl localhost:9200)
-done 
-
-cd ..
 
 }
 
@@ -66,7 +55,14 @@ curl -s -H "Content-Type: application/x-ndjson" -XPOST localhost:9200/_bulk --da
 curl -s -H "Content-Type: application/x-ndjson" -XPOST localhost:9200/_bulk --data-binary "@data/movies.json"
 }
 
+install_gcloud_cli(){
+	sudo apt-get install  -y python
+	curl https://sdk.cloud.google.com | bash
+	exec -l $SHELL
+	gcloud init
+  gcloud components install kubectl
+}
 
-install_npm
+
 install_docker
-load_db
+install_gcloud_cli
