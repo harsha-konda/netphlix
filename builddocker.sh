@@ -12,7 +12,7 @@ build_docker(){
 	cd ..
 }
 
-
+# auth_gcloud
 build_docker es 
 build_docker movies-app 
 build_docker solution 

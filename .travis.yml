@@ -1,0 +1,16 @@
+sudo: true
+language: node_js
+addons:
+  apt:
+    packages:
+      - "python"
+      - "python-pip"
+node_js:
+  - "6"
+install:
+  - pip install flask
+  - pip install requests
+  - npm install -g @angular/cli
+  - npm install
+script:
+  - npm run build
