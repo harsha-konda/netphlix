@@ -77,6 +77,11 @@ PUT movies/_mapping/movie
 ```
 
 ## docker
+### prune
+```
+docker system prune -a
+```
+
 ### build
 ```
 sudo docker build es/ --tag=elastic
