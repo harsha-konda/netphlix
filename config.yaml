@@ -1,0 +1,123 @@
+---
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  name: movies-app
+  labels:
+    app: movies-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: movies-app
+  template:
+    metadata:
+      labels:
+        app: movies-app
+    spec:
+      containers:
+      - name: movies-app
+        image: gcr.io/project2-186501/movies-app:latest
+        ports:
+        - containerPort: 3000
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: PYTHONUNBUFFERED
+          value: "0"
+---
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  name: es
+  labels:
+    app: es
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: es
+  template:
+    metadata:
+      labels:
+        app: es
+    spec:
+      containers:
+      - name: es
+        image: gcr.io/project2-186501/es:latest
+        ports:
+        - containerPort: 9200
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: PYTHONUNBUFFERED
+          value: "0"
+---
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  name: solution
+  labels:
+    app: solution
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: solution
+  template:
+    metadata:
+      labels:
+        app: solution
+    spec:
+      containers:
+      - name: solution
+        image: gcr.io/project2-186501/solution:latest
+        ports:
+        - containerPort: 5000
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: PYTHONUNBUFFERED
+          value: "0"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: movies-app-service
+  labels:
+    app: movies-app
+spec:
+  type: LoadBalancer
+  ports:
+    - name: http
+      port: 80
+      targetPort: 3000
+  selector:
+    app: movies-app
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: es-service
+  labels:
+    app: es
+spec:
+  type: LoadBalancer
+  ports:
+    - name: http
+      port: 80
+      targetPort: 9200
+  selector:
+    app: es
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: solution-service
+  labels:
+    app: solution
+spec:
+  type: LoadBalancer
+  ports:
+    - name: http
+      port: 80
+      targetPort: 6000
+  selector:
+    app: solution

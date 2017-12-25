@@ -14,3 +14,9 @@ button{
   font-size:large;
   outline: none;
 }
+
+/*button:target{*/
+  /*background-color: red;*/
+/*}*/
+
+
