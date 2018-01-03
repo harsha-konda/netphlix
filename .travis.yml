@@ -1,4 +1,4 @@
-sudo: true
+sudo: required
 language: node_js
 addons:
   apt:
@@ -7,10 +7,13 @@ addons:
       - "python-pip"
 node_js:
   - "6"
-install:
+python:
+  - 2.7
+before_install:
   - sudo pip install flask
   - sudo pip install requests
   - npm install -g @angular/cli
+  - cd movies-app/
   - npm install
 script:
   - npm run build

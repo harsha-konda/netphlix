@@ -1,8 +1,13 @@
 projectId=project2-186501
+build=$1
 auth_gcloud(){
-	gcloud auth login 
-	gcloud auth application-default login
-	gcloud config set project ${projectId}
+	if [[ ! -z "$build" ]]
+		then
+
+		gcloud auth login 
+		gcloud auth application-default login
+		gcloud config set project ${projectId}
+	fi
 }
 
 build_docker(){
