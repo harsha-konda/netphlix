@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.com/harsha-konda/netphlix.svg?token=rDtgdJpvq2dsfcM9RHLT&branch=master)](https://travis-ci.com/harsha-konda/netphlix)
 ## issues
 1. node server integration test
 2. breaks without a server on 5000
@@ -90,4 +91,9 @@ sudo docker build es/ --tag=elastic
 ```
 sudo sysctl -w vm.max_map_count=262144
 sudo docker  run -d -p 9200:9200 -e "ES_JAVA_OPTS=-Xms4g -Xmx4g" elastic
+```
+
+## git
+```
+git config credential.helper store
 ```

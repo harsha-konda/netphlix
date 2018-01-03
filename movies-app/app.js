@@ -72,6 +72,7 @@ app.post('/es/movies/get',function (req,res) {
  * */
 app.post('/es/users/get',function(req,res){
   const{movies,size} =req.body;
+
   const query=buildMatchQuery(movies);
   const users=queryForUsers(query,size);
   Promise.resolve(users)
@@ -159,6 +160,10 @@ app.listen(3000, function () {
 
 function buildMatchQuery(movies){
   let query=[];
+
+  if(!movies)
+    return query;
+
   movies.forEach(function(movie){
     const mini_q={
       match:{

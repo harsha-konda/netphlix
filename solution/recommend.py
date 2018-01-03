@@ -1,9 +1,7 @@
 from flask import Flask,request
-from flask_cors import CORS
 import json
 app = Flask(__name__)
 import requests
-CORS(app)
 from similarity import ComputeSimilarity
 
 node_url='http://localhost:3000/es/users/get'

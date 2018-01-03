@@ -56,7 +56,7 @@ curl -s -H "Content-Type: application/x-ndjson" -XPOST localhost:9200/_bulk --da
 }
 
 install_gcloud_cli(){
-	sudo apt-get install python
+	sudo apt-get install  -y python
 	curl https://sdk.cloud.google.com | bash
 	exec -l $SHELL
 	gcloud init

@@ -20,7 +20,7 @@ spec:
         image: gcr.io/project2-186501/movies-app:latest
         ports:
         - containerPort: 3000
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         env:
         - name: PYTHONUNBUFFERED
           value: "0"
@@ -41,15 +41,31 @@ spec:
       labels:
         app: es
     spec:
+      initContainers:
+      - name: init-sysctl
+        image: busybox:1.27.2
+        command:
+        - sysctl
+        - -w
+        - vm.max_map_count=262144
+        securityContext:
+          privileged: true
       containers:
       - name: es
         image: gcr.io/project2-186501/es:latest
+        resources:
+          requests:
+            memory: "2048Mi"
+          limits:
+            memory: "4096Mi"
         ports:
         - containerPort: 9200
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
+        securityContext:
+          privileged: true
         env:
-        - name: PYTHONUNBUFFERED
-          value: "0"
+        - name: ES_JAVA_OPTS
+          value: -Xms2g -Xmx2g       
 ---
 kind: Deployment
 apiVersion: extensions/v1beta1
@@ -72,7 +88,7 @@ spec:
         image: gcr.io/project2-186501/solution:latest
         ports:
         - containerPort: 5000
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         env:
         - name: PYTHONUNBUFFERED
           value: "0"
