@@ -47,9 +47,16 @@ spec:
         ports:
         - containerPort: 9200
         imagePullPolicy: IfNotPresent
+        securityContext:
+          privileged: true
         env:
-        - name: PYTHONUNBUFFERED
-          value: "0"
+        - name: STARTUP_SCRIPT
+          value: |
+            #! /bin/bash
+            sysctl -w vm.max_map_count=262144
+            echo "done"          
+          - key: MAX_HEAP_SIZE
+            value: 2g
 ---
 kind: Deployment
 apiVersion: extensions/v1beta1
