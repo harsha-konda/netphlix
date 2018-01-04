@@ -16,12 +16,12 @@ const type="post";
 const g_size=100;
 const i_tf="movies_tf";
 const numUserReco=100;
-const flaskUrl='http://localhost:5000/recommend';
+const flaskUrl='http://solution-service/recommend';
 /**
  * Configure
  * */
 const client = new es.Client({
-  host: 'localhost:9200',
+  host: 'http://es-service',
   // log: 'trace'
 });
 
