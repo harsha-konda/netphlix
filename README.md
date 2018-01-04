@@ -92,3 +92,8 @@ sudo docker build es/ --tag=elastic
 sudo sysctl -w vm.max_map_count=262144
 sudo docker  run -d -p 9200:9200 -e "ES_JAVA_OPTS=-Xms4g -Xmx4g" elastic
 ```
+
+## git
+```
+git config credential.helper store
+```
