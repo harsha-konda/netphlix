@@ -2,6 +2,7 @@
 ## issues
 1. node server integration test
 2. breaks without a server on 5000
+3. mount volume instead of curl in **es**
 
 ## to-do ☹
 1. Correctness
