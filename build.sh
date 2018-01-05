@@ -49,6 +49,14 @@ s3_get(){
 }
 
 
+install_pip_dependencies(){
+  sudo apt-get install -y python-pip python-dev build-essential 
+  sudo pip install --upgrade pip 
+  sudo pip install halo
+  sudo pip install requests
+}
+
+
 load_db(){
 curl -s -H "Content-Type: application/x-ndjson" -XPOST localhost:9200/_bulk --data-binary "@data/movies_tf.json"
 curl -s -H "Content-Type: application/x-ndjson" -XPOST localhost:9200/_bulk --data-binary "@data/movies_users.json"

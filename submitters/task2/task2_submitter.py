@@ -10,7 +10,7 @@ import json
 output_file = open('.work/context', 'w')
 feedback_file = open('.work/feedback', 'w')
 setup={}
-spinner = Halo({'text': 'Loading...', 'spinner': 'dots'})
+spinner = Halo(text='Loading', spinner='dots')
 
 
 GKE_NUM_DEPLOYMENTS=3
@@ -88,7 +88,6 @@ def get_ips(gke_context):
 
     return {'gke_front': gke_front, 'gke_back': gke_back, 'gke_db': gke_db}
 
-
 def count_deployment(context, name, expected):
     switch_context(context)
 
@@ -101,13 +100,11 @@ def count_deployment(context, name, expected):
         print(feedback)
     return actual
 
-
 def check_deployments(gke_context):
     expected_gke = 3
     count = 0
     count += count_deployment(gke_context, 'GKE', expected_gke)
     setup['deployments']=count
-
 
 if __name__ == "__main__":
     print("--------------------------------------------------------------------------------")
