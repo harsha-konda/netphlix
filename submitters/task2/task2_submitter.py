@@ -21,7 +21,7 @@ GKE_BACKEND='5000'
 
 def run_shell_command(cmd):
     cmd_list = cmd.split()
-    return subprocess.check_output(cmd_list).decode('UTF-8')
+    return str(subprocess.check_output(cmd_list).decode('UTF-8'))
 
 
 def get_user_input(prompt):
