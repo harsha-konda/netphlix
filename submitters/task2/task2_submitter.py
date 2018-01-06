@@ -39,7 +39,7 @@ def get_contexts():
     contexts = run_shell_command('kubectl config get-contexts -o name').strip().split('\n')
     gke_context=None
     try:
-        gke_context=filter(lambda x:x.startwith("gke"),contexts)[0]
+        gke_context=filter(lambda x:x.startswith("gke"),contexts)[0]
         spinner.info('Using {} as the GKE context'.format(gke_context))
     except Exception as e:
         feedback = 'Exception: {} looking up contexts'.format(e)
@@ -55,7 +55,7 @@ def switch_context(target):
 def list_ips():
     cmd = "kubectl get services -o json | jq -r '.items[] | [.metadata.name,.status.loadBalancer.ingress[]?.ip,.spec.ports[0].targetPort]| @csv'"
     output = subprocess.check_output(cmd, shell=True).strip().split("\n")
-    ips=map(lambda x:x.replace('"',"").split(","),output)
+    ips=map(lambda x:x.replace('"',"").split(","),json.loads(output))
     parsedIps=filter(lambda d:len(d)==3,ips)
     return parsedIps
 
@@ -74,13 +74,13 @@ def get_ips(gke_context):
 
     try:
         gke_front = filter(lambda x:x[2]==GKE_FRONTEND,ips)[0][1]
-        spinner.info('Using {} as the GKE frontend IP address'.format(",".join(gke_front)))
+        spinner.info('Using {} as the GKE frontend IP address'.format(gke_front))
 
         gke_back = filter(lambda x:x[2]==GKE_BACKEND,ips)[0][1]
-        spinner.info('Using {} as the GKE backend IP address'.format(",".join(gke_back)))
+        spinner.info('Using {} as the GKE backend IP address'.format(gke_back))
 
         gke_db = filter(lambda x:x[2]==GKE_DB,ips)[0][1]
-        spinner.info('Using {} as the GKE elastic-search IP address'.format(",".join(gke_db)))
+        spinner.info('Using {} as the GKE elastic-search IP address'.format(gke_db))
 
     except IndexError:
         feedback = 'Exception:looking up IP address in GKE context'
@@ -116,10 +116,10 @@ if __name__ == "__main__":
 
     spinner.start("counting the number of deployments")
     check_deployments(gke_context)
-    spinner.succeed("done counting!")
+    spinner.succeed("done counting deplyments!")
 
     spinner.start("counting the number of services")
     ips = get_ips( gke_context)
-    spinner.succeed("done counting")
+    spinner.succeed("done counting services")
 
     output_file.write(json.dumps(setup))
