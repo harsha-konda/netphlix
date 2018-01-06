@@ -50,6 +50,7 @@ s3_get(){
 
 
 install_pip_dependencies(){
+  sudo apt install -y jq
   sudo apt-get install -y python-pip python-dev build-essential 
   sudo pip install --upgrade pip 
   sudo pip install halo
