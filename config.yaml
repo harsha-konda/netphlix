@@ -62,7 +62,11 @@ spec:
           privileged: true
         env:
         - name: ES_JAVA_OPTS
-          value: -Xms2g -Xmx2g       
+          value: -Xms1g -Xmx1g    
+        lifecycle:
+          postStart:
+            exec:
+              command: ["/usr/bin/curl","s","-H",'"Content-Type: application/x-ndjson" -XPOST localhost:9200/_bulk --data-binary "@data/movies_users.json"']
 ---
 kind: Deployment
 apiVersion: extensions/v1beta1
