@@ -63,6 +63,20 @@ spec:
         env:
         - name: ES_JAVA_OPTS
           value: -Xms1g -Xmx1g    
+
+        volumeMounts:
+        - name: es-data-vc
+          mountPath: /usr/share/elasticsearch/data
+volumeClaimTemplates:
+- metadata:
+    name: es-data-vc
+  spec:
+    accessModes: [ "ReadWriteOnce" ]
+    resources:
+      requests:
+        storage: 20Gi
+    storageClassName: gce-standard-sc
+
 ---
 kind: Deployment
 apiVersion: extensions/v1beta1

@@ -3,6 +3,7 @@
 1. node server integration test
 2. breaks without a server on 5000
 3. mount volume instead of curl in **es**
+4. add basic k8 commands to k8 primer
 
 ## to-do ☹
 1. Correctness
