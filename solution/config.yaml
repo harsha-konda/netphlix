@@ -38,15 +38,6 @@ spec:
       labels:
         app: es
     spec:
-      initContainers:
-      - name: init-sysctl
-        image: busybox:1.27.2
-        command:
-        - sysctl
-        - -w
-        - vm.max_map_count=262144
-        securityContext:
-          privileged: true
       containers:
       - name: es
         image: gcr.io/project2-186501/es:latest
@@ -55,6 +46,9 @@ spec:
             memory: "2048Mi"
           limits:
             memory: "4096Mi"
+        volumeMounts:
+          - name: es-data-vc
+            mountPath: /usr/share/elasticsearch/data
         ports:
         - containerPort: 9200
         imagePullPolicy: Always
@@ -62,21 +56,11 @@ spec:
           privileged: true
         env:
         - name: ES_JAVA_OPTS
-          value: -Xms1g -Xmx1g    
-
-        volumeMounts:
+          value: -Xms1g -Xmx1g  
+      volumes:
         - name: es-data-vc
-          mountPath: /usr/share/elasticsearch/data
-volumeClaimTemplates:
-- metadata:
-    name: es-data-vc
-  spec:
-    accessModes: [ "ReadWriteOnce" ]
-    resources:
-      requests:
-        storage: 20Gi
-    storageClassName: gce-standard-sc
-
+          persistentVolumeClaim:
+            claimName: es-data-vc
 ---
 kind: Deployment
 apiVersion: extensions/v1beta1

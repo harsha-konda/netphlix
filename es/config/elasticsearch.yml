@@ -1,10 +1,5 @@
-http.cors.enabled: true
-http.cors.allow-origin: "*"
+http.host: 0.0.0.0
 
-http.cors.allow-methods : OPTIONS, HEAD, GET, POST, PUT, DELETE
-http.cors.allow-headers : X-Requested-With,X-Auth-Token,Content-Type, Content-Length
-cluster.name: elasticsearch_harsha
-xpack.security.enabled: false
-http.max_content_length: 1200mb
-network.host: 0.0.0.0
-http.port: 9200
+# Uncomment the following lines for a production cluster deployment
+#transport.host: 0.0.0.0
+#discovery.zen.minimum_master_nodes: 1
