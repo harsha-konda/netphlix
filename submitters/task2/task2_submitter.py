@@ -19,6 +19,11 @@ GKE_DB='9200'
 GKE_BACKEND='5000'
 
 
+class TestCases(object):
+    def __init__(self, arg):
+        self.url = 
+
+
 def run_shell_command(cmd):
     cmd_list = cmd.split()
     return str(subprocess.check_output(cmd_list).decode('UTF-8'))
@@ -105,6 +110,9 @@ def check_deployments(gke_context):
     count = 0
     count += count_deployment(gke_context, 'GKE', expected_gke)
     setup['deployments']=count
+
+
+
 
 if __name__ == "__main__":
     print("--------------------------------------------------------------------------------")

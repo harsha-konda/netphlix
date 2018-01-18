@@ -10,7 +10,7 @@
 1. ~Correctness~
 2. ~Percentage counts > 100~
 3. ~Integrate with frontend~
-4. Develop test cases
+4. ~Develop test cases~
 5. Submitters
 6. Graders
 7. WriteUp
@@ -26,6 +26,7 @@
 ### run
 ```
 ./app.sh -b -a 
+./app.sh -
 ```
 
 ### spark jobs
