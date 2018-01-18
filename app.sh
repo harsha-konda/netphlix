@@ -44,11 +44,17 @@ newgrp docker
 } 
 
 install_gcloud_cli(){
-	sudo apt-get install  -y python
-	curl https://sdk.cloud.google.com | bash
+	export CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)"
+
+	# Add the Cloud SDK distribution URI as a package source
+	echo "deb http://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
+
+	# Import the Google Cloud Platform public key
+	curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+	sudo apt-get update && sudo apt-get install -y google-cloud-sdk
 	exec -l $SHELL
 	gcloud init
-  gcloud components install kubectl
+	sudo apt-get install kubectl
 }
 
 auth_gcloud(){
@@ -76,6 +82,7 @@ push_docker(){
 }
 
 deploy(){
+	#TODO: delete running load balancer on gcp
 	kubectl delete -f solution/config.yaml > /dev/null
 	kubectl create -f solution/config.yaml
 }
@@ -84,7 +91,7 @@ mount_volume(){
 	kubectl delete -f solution/volume.yaml > /dev/null
 	kubectl create -f solution/volume.yaml
 }
-while getopts ":bpadm" opt; do
+while getopts "bpadmh::" opt; do
   case $opt in
     b) #build 
       install_npm && install_docker && install_pip_dependencies && install_gcloud_cli >&2
@@ -100,6 +107,14 @@ while getopts ":bpadm" opt; do
 	  ;;
   	m) #mount
 	  mount_volume >&2
+	  ;;
+	*) #help
+	  echo "
+	-b install dependencies
+	-p push docker images
+	-a push by authenticating
+	-d create k8 deployment
+	-m create a volume mount" >&2
 	  ;;
     \?)
       echo "Invalid option: -$OPTARG" >&2

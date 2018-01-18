@@ -1,12 +1,13 @@
 [![Build Status](https://travis-ci.com/harsha-konda/netphlix.svg?token=rDtgdJpvq2dsfcM9RHLT&branch=master)](https://travis-ci.com/harsha-konda/netphlix)
+
 ## issues
-1. node server integration test
-2. breaks without a server on 5000
-3. mount volume instead of curl in **es**
+1. ~node server integration test~
+2. ~breaks without a server on 5000~
+3. ~mount volume instead of curl in **es**~
 4. add basic k8 commands to k8 primer
 
 ## to-do ☹
-1. Correctness
+1. ~Correctness~
 2. ~Percentage counts > 100~
 3. ~Integrate with frontend~
 4. Develop test cases
@@ -21,6 +22,12 @@
 - https://s3.amazonaws.com/hkonda-code/netflix.tar
 
 ## Docs
+
+### run
+```
+./app.sh -b -a 
+```
+
 ### spark jobs
 ```
 cd filter-links/

@@ -17,11 +17,15 @@ const g_size=100;
 const i_tf="movies_tf";
 const numUserReco=100;
 const flaskUrl='http://solution-service/recommend';
+const esUrl='http://es-service';
+// const flaskUrl='http://localhost:5000'
+// const esUrl='http://localhost:9200'    #TODO: pass these as env variables -> npm run dev
+
 /**
  * Configure
  * */
 const client = new es.Client({
-  host: 'http://es-service',
+  host: esUrl,
   // log: 'trace'
 });
 
@@ -87,9 +91,8 @@ app.post('/es/users/recommend',function(req,res){
   const {movies}=req.body;
   request
     .post(flaskUrl,{json:{movies:movies}})
-    .on('response',(response)=>response.on('data',(data)=>returnMovies(res,JSON.parse(data))));
-
-
+    .on('response',(response)=>response.on('data',(data)=>returnMovies(res,JSON.parse(data))))
+    .on('error',(error)=>{console.log(error);console.log("make sure your started the flask server")});
 });
 
 function returnMovies(res,movies){
@@ -153,6 +156,9 @@ app.listen(3000, function () {
   console.log('Movies-app listening on port 3000!')
 });
 
+app.get('*', function(req, res) {
+  res.sendFile(path.join(__dirname,'dist/index.html'))
+});
 
 /**
  * helper functions
