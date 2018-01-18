@@ -1,6 +1,6 @@
 #!/bin/bash
 projectId=project2-186501
-
+path=~/netphlix
 install_npm(){
 sudo apt-get update
 curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
@@ -83,13 +83,13 @@ push_docker(){
 
 deploy(){
 	#TODO: delete running load balancer on gcp
-	kubectl delete -f solution/config.yaml > /dev/null
-	kubectl create -f solution/config.yaml
+	kubectl delete -f $path/solution/config.yaml > /dev/null
+	kubectl create -f $path/solution/config.yaml
 }
 
 mount_volume(){
-	kubectl delete -f solution/volume.yaml > /dev/null
-	kubectl create -f solution/volume.yaml
+	kubectl delete -f $path/solution/volume.yaml > /dev/null
+	kubectl create -f $path/solution/volume.yaml
 }
 while getopts "bpadmh::" opt; do
   case $opt in
