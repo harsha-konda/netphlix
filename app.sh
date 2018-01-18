@@ -44,17 +44,11 @@ newgrp docker
 } 
 
 install_gcloud_cli(){
-	export CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)"
-
-	# Add the Cloud SDK distribution URI as a package source
-	echo "deb http://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
-
-	# Import the Google Cloud Platform public key
-	curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
-	sudo apt-get update && sudo apt-get install -y google-cloud-sdk
+	sudo apt-get install  -y python
+	curl https://sdk.cloud.google.com | bash
 	exec -l $SHELL
 	gcloud init
-	sudo apt-get install kubectl
+  	gcloud components install kubectl
 }
 
 auth_gcloud(){
@@ -83,13 +77,13 @@ push_docker(){
 
 deploy(){
 	#TODO: delete running load balancer on gcp
-	kubectl delete -f $path/solution/config.yaml > /dev/null
-	kubectl create -f $path/solution/config.yaml
+	kubectl delete -f solution/config.yaml > /dev/null
+	kubectl create -f solution/config.yaml
 }
 
 mount_volume(){
-	kubectl delete -f $path/solution/volume.yaml > /dev/null
-	kubectl create -f $path/solution/volume.yaml
+	kubectl delete -f solution/volume.yaml > /dev/null
+	kubectl create -f solution/volume.yaml
 }
 while getopts "bpadmh::" opt; do
   case $opt in
