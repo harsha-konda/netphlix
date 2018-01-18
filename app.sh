@@ -77,13 +77,20 @@ push_docker(){
 
 deploy(){
 	#TODO: delete running load balancer on gcp
+	cd $path
 	kubectl delete -f solution/config.yaml > /dev/null
 	kubectl create -f solution/config.yaml
 }
 
 mount_volume(){
+	cd $path
 	kubectl delete -f solution/volume.yaml > /dev/null
 	kubectl create -f solution/volume.yaml
+}
+
+load_db(){
+	cd ~
+	wget 
 }
 while getopts "bpadmh::" opt; do
   case $opt in

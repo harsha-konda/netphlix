@@ -4,7 +4,7 @@ RUN apt-get install -y python-pip
 RUN pip install Flask
 RUN pip install requests
 WORKDIR /solution
-COPY . ./
+COPY ./task2/* ./
 
 EXPOSE 5000
 CMD ["python","recommend.py"]
