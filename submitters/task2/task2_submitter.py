@@ -17,11 +17,33 @@ GKE_NUM_DEPLOYMENTS=3
 GKE_FRONTEND='3000'
 GKE_DB='9200'
 GKE_BACKEND='5000'
+COUNT_GKE=3
+TOTAL_SCORE=20
+TEST_CASES_URL="https://s3.amazonaws.com/hkonda-code/data/test_cases/test_cases.json"  #TODO: change this course public link
+
+class TestCases:
+    def __init__(self, node_url):
+        self.node_url=node_url
+        data=requests.get(TEST_CASES_URL).text.split("\n")
+        self.test_cases=map(random.choice(data),range(10))
+        self.score=self.validate()
+
+    @staticmethod
+    def get_movies(mv):
+        return map(lambda movie:movie['title'],mv)
 
 
-class TestCases(object):
-    def __init__(self, arg):
-        self.url = 
+    def validate(self):
+        score=0.0
+        for raw_test in self.test_cases:
+            test_case=json.loads(raw_test)
+            r=requests.post(self.node_url+"/es/users/recommend",data=test_case['q'])
+            s_movies_list=TestCases.get_movies(r.json())
+            a_movies_list=TestCases.get_movies(test_case['a'])
+            score+=(1.0 if s_movies_list==a_movies_list else 0.0)
+
+        return score/len(self.test_cases)
+
 
 
 def run_shell_command(cmd):
@@ -106,28 +128,37 @@ def count_deployment(context, name, expected):
     return actual
 
 def check_deployments(gke_context):
-    expected_gke = 3
     count = 0
     count += count_deployment(gke_context, 'GKE', expected_gke)
-    setup['deployments']=count
+    return 1.0 if COUNT_GKE==count else 0.0
 
 
+def compute_score():
+
+    spinner.start("checking for gke context")
+    gke_context = get_contexts()
+    spinner.succeed("found gke context!")
+
+    score=0.0
+
+    spinner.start("counting the number of deployments")
+    score+=(0.1*TOTAL_SCORE*check_deployments(gke_context))
+    spinner.succeed("done counting deplyments!")
+
+    spinner.start("counting the number of services")
+    ips = get_ips( gke_context)
+    score+=(1.0 if COUNT_GKE == len(ips.keys()) else 0.0)*0.1*TOTAL_SCORE
+    spinner.succeed("done counting services")
+
+    spinner.start("testing for correctness")
+    score+=TestCases(ips['gke_front']).score*0.8*TOTAL_SCORE
+    spinner.succeed("done grading")
 
 
 if __name__ == "__main__":
     print("--------------------------------------------------------------------------------")
     print("--------------------------------- Task 2! --------------------------------------")
     print("--------------------------------------------------------------------------------")
-    spinner.start("checking for gke context")
-    gke_context = get_contexts()
-    spinner.succeed("found gke context!")
-
-    spinner.start("counting the number of deployments")
-    check_deployments(gke_context)
-    spinner.succeed("done counting deplyments!")
-
-    spinner.start("counting the number of services")
-    ips = get_ips( gke_context)
-    spinner.succeed("done counting services")
+    compute_score()	
 
     output_file.write(json.dumps(setup))

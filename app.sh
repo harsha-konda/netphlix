@@ -5,7 +5,9 @@ install_npm(){
 sudo apt-get update
 curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
 sudo apt-get install -y nodejs
-sudo apt-get -y upgrade
+sudo apt-get update && sudo apt-get -y upgrade
+sudo apt-get install python-pip
+
 sudo pip install flask 
 sudo pip install requests
 sudo chown -R $(whoami) ~/.npm
