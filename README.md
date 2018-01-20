@@ -1,5 +1,8 @@
 [![Build Status](https://travis-ci.com/harsha-konda/netphlix.svg?token=rDtgdJpvq2dsfcM9RHLT&branch=master)](https://travis-ci.com/harsha-konda/netphlix)
 
+
+![alt text](https://github.com/harsha-konda/netphlix/blob/master/p22.png "architecture")
+
 ## issues
 1. ~node server integration test~
 2. ~breaks without a server on 5000~
