@@ -94,10 +94,11 @@ load_db(){
 	cd ~
 	wget 
 }
+
 while getopts "bpadmh::" opt; do
   case $opt in
     b) #build 
-      install_npm && install_docker && install_pip_dependencies && install_gcloud_cli >&2
+      install_npm && install_gcloud_cli && install_docker >&2
       ;;
     p) # push to container repo ; change projectId above
 	  push_docker >&2
