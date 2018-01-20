@@ -22,7 +22,6 @@
 - https://s3.amazonaws.com/hkonda-code/netflix.tar
 
 ## Docs
-
 ### run
 ```
 ./app.sh -b -a 
@@ -64,13 +63,17 @@ PUT movies
 
 #### users
 ```
-curl -s -H "Content-Type: application/x-ndjson" -XPOST localhost:9200/_bulk --data-binary "@data/movies_users.json"
+wget https://s3.amazonaws.com/hkonda-code/data/movies_user.json
+
+curl -s -H "Content-Type: application/x-ndjson" -XPOST $esdns/_bulk --data-binary "@movies_users.json"
 
 ```
 
 #### movies
 ```
-curl -s -H "Content-Type: application/x-ndjson" -XPOST localhost:9200/_bulk --data-binary "@data/movies.json"
+wget https://s3.amazonaws.com/hkonda-code/data/movies.json
+
+curl -s -H "Content-Type: application/x-ndjson" -XPOST $esdns/_bulk --data-binary "@data/movies.json"
 
 ```
 
