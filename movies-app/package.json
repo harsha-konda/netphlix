@@ -5,7 +5,7 @@
   "scripts": {
     "ng": "ng",
     "start": "npm-run-all --parallel server client db",
-    "db":"elasticsearch",
+    "db": "elasticsearch",
     "server": "node app.js",
     "client": "ng serve",
     "build": "ng build",
@@ -15,6 +15,7 @@
   },
   "private": true,
   "dependencies": {
+    "@angular-devkit/core": "0.0.28",
     "@angular/animations": "^5.1.0",
     "@angular/cdk": "^5.0.0",
     "@angular/common": "^5.0.0",
