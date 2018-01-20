@@ -76,7 +76,7 @@ curl -s -H "Content-Type: application/x-ndjson" -XPOST $esdns/_bulk --data-binar
 ```
 wget https://s3.amazonaws.com/hkonda-code/data/movies.json
 
-curl -s -H "Content-Type: application/x-ndjson" -XPOST $esdns/_bulk --data-binary "@data/movies.json"
+curl -s -H "Content-Type: application/x-ndjson" -XPOST $esdns/_bulk --data-binary "@movies.json"
 
 ```
 
