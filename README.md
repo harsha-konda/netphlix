@@ -25,6 +25,11 @@
 - https://s3.amazonaws.com/hkonda-code/netflix.tar
 
 ## Docs
+### node api:
+- GET `/es/movies/:size` -> gets a specified number of movies by rating
+- POST `/es/movies/get` -> gets the metadata of an array of movies
+- 
+
 ### run
 ```
 ./app.sh -b -a 
@@ -40,6 +45,23 @@ spark-submit --class FilterUsers  target/scala-2.11/comcast-assembly-1.0.jar
 ```
 
 ### bulk import
+
+#### users
+```
+wget https://s3.amazonaws.com/hkonda-code/data/movies_user.json
+
+curl -s -H "Content-Type: application/x-ndjson" -XPOST $esdns/_bulk --data-binary "@movies_users.json"
+
+```
+
+#### movies
+```
+wget https://s3.amazonaws.com/hkonda-code/data/movies.json
+
+curl -s -H "Content-Type: application/x-ndjson" -XPOST $esdns/_bulk --data-binary "@movies.json"
+
+```
+
 #### creating index
 ```
 curl -XPUT 'localhost:9200/movies_users?pretty' -H 'Content-Type: application/json' -d'
@@ -62,22 +84,6 @@ PUT movies
         }
     }
 }
-```
-
-#### users
-```
-wget https://s3.amazonaws.com/hkonda-code/data/movies_user.json
-
-curl -s -H "Content-Type: application/x-ndjson" -XPOST $esdns/_bulk --data-binary "@movies_users.json"
-
-```
-
-#### movies
-```
-wget https://s3.amazonaws.com/hkonda-code/data/movies.json
-
-curl -s -H "Content-Type: application/x-ndjson" -XPOST $esdns/_bulk --data-binary "@movies.json"
-
 ```
 
 #### enabling aggregations on field
