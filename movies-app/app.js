@@ -16,10 +16,10 @@ const type="post";
 const g_size=100;
 const i_tf="movies_tf";
 const numUserReco=100;
-// const flaskUrl='http://solution-service/recommend';
-// const esUrl='http://es-service';
-const flaskUrl='http://localhost:5000/recommend'
-const esUrl='http://localhost:9200'   //TODO: pass these as env variables -> npm run dev
+const flaskUrl='http://solution-service/recommend';
+const esUrl='http://es-service';
+// const flaskUrl='http://localhost:5000/recommend'
+// const esUrl='http://localhost:9200'   //TODO: pass these as env variables -> npm run dev
 
 /**
  * Configure

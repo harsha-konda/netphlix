@@ -4,8 +4,8 @@ app = Flask(__name__)
 import requests
 from similarity import ComputeSimilarity
 
-# node_url='http://movies-app-service/es/users/get'
-node_url="http://localhost:3000/es/users/get"
+node_url='http://movies-app-service/es/users/get'
+# node_url="http://localhost:3000/es/users/get"
 MAX_HITS=10
 
 @app.route("/recommend",methods=['POST'])
