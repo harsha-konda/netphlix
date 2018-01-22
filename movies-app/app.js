@@ -16,10 +16,10 @@ const type="post";
 const g_size=100;
 const i_tf="movies_tf";
 const numUserReco=100;
-const flaskUrl='http://solution-service/recommend';
-const esUrl='http://es-service';
-// const flaskUrl='http://localhost:5000/recommend'
-// const esUrl='http://localhost:9200'   //TODO: pass these as env variables -> npm run dev
+// const flaskUrl='http://solution-service/recommend';
+// const esUrl='http://es-service';
+const flaskUrl='http://localhost:5000/recommend'
+const esUrl='http://localhost:9200'   //TODO: pass these as env variables -> npm run dev
 
 /**
  * Configure
@@ -88,6 +88,7 @@ app.post('/es/users/get',function(req,res){
  * */
 app.post('/es/users/recommend',function(req,res){
   const {movies}=req.body;
+
   request
     .post(flaskUrl,{json:{movies:movies}})
     .on('response',(response)=>response.on('data',(data)=>returnMovies(res,data)))
@@ -203,17 +204,16 @@ function queryForUsers(query,size){
   })
 }
 
-function getMovies(data) {
+function getMovies(movies) {
   return new Promise((resolve,reject)=>{
-    const movies=JSON.parse(data);
-    client.search({
+  client.search({
       index: i_m,
       type: t_m,
       body: {
         query: {
           ids: {
             type: t_m,
-            values: movies
+            values:  movies instanceof Buffer ? JSON.parse(movies):movies 
           }
         },
         size: movies.length
