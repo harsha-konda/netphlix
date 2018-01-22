@@ -87,12 +87,23 @@ app.post('/es/users/get',function(req,res){
  * recommend users by requsting python backend
  * */
 app.post('/es/users/recommend',function(req,res){
-  const {movies}=req.body;
+  const {movies,size}=req.body;
+  const query=buildMatchQuery(movies);
+  const usersPromise=queryForUsers(query,size);
 
-  request
-    .post(flaskUrl,{json:{movies:movies}})
-    .on('response',(response)=>response.on('data',(data)=>returnMovies(res,data)))
-    .on('error',(error)=>{console.log(error);console.log("make sure your started the flask server")});
+
+  Promise
+    .resolve(usersPromise)
+    .then((users)=>{
+      const uniqMovies=movies.filter(function(elem, pos) {
+        return movies.indexOf(elem) == pos;
+      });
+
+      request
+        .post(flaskUrl,{json:{movies:uniqMovies,users:users}})
+        .on('response',(response)=>response.on('data',(data)=>returnMovies(res,data)))
+        .on('error',(error)=>{console.log(error);console.log("make sure your started the flask server")});
+    }).catch((error)=>console.log(error));
 });
 
 function returnMovies(res,movies){
@@ -213,7 +224,7 @@ function getMovies(movies) {
         query: {
           ids: {
             type: t_m,
-            values:  movies instanceof Buffer ? JSON.parse(movies):movies 
+            values:  movies instanceof Buffer ? JSON.parse(movies):movies
           }
         },
         size: movies.length
