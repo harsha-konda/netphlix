@@ -4,16 +4,13 @@ app = Flask(__name__)
 import requests
 from similarity import ComputeSimilarity
 
-node_url='http://movies-app-service/es/users/get'
-# node_url="http://localhost:3000/es/users/get"
 MAX_HITS=10
-
 @app.route("/recommend",methods=['POST'])
 def recommend():
     payload=request.get_json(silent=True)
     user=set(payload['movies'])
-    r=requests.post(node_url,data=payload)
-    hits=ComputeSimilarity(user,r.json(),MAX_HITS).mapped_hits
+    similarUsers=payload['users']
+    hits=ComputeSimilarity(user,similarUsers,MAX_HITS).mapped_hits
 
     movies_map={}
     movie_len=0
